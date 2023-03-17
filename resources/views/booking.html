@@ -1,0 +1,610 @@
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js"></script>
+<t4 type="media" id="1779801" formatter="javascript/*" /><!-- library-forms-scripts.js -->
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.theme.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.1/jquery-ui-timepicker-addon.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.1/jquery-ui-timepicker-addon.min.css">
+
+<style>
+.hide { display: none; }
+</style>
+
+
+<script>
+	/* Show / Hide from all users */
+	jQuery.fn.extend({
+    myShow: function () {
+			$(this).attr('aria-hidden', 'false');
+			$(this).data('hidden', 'false');
+      return this.show();
+    },
+    myHide:function(){
+			$(this).attr('aria-hidden', 'true');
+			$(this).data('hidden', 'true');
+      return this.hide();
+    }
+	});
+</script>
+
+
+<script type="text/javascript">
+$(function() { 
+
+  // add * to required field labels
+  $('label.required').append('&nbsp;*&nbsp;');
+
+  jQuery.validator.setDefaults({
+  	debug: false,
+  	success: "valid"
+	});
+
+    $.validator.addMethod("dateTime", function (value, element) {
+        var stamp = value.split(" ");
+        var validDate = !/Invalid|NaN/.test(new Date(stamp[0]).toString());
+        var validTime = /^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$/i.test(stamp[1]);
+        return this.optional(element) || (validDate && validTime);
+    }, "Please enter a valid date and time.");
+
+	// Form validation - http://jqueryvalidation.org
+	$('#frmReq').validate({
+                focusCleanup: true,
+                errorPlacement: function(error, element) {
+                  var trigger = element.next('.ui-datepicker-trigger');
+                  error.insertAfter(trigger.length > 0 ? trigger : element);
+                },
+		rules: { 
+                  optReqType: "required",
+				  optCampus: "required",
+                  txtEmail: { required: true, multiemails: true },
+				  dtpDate: {
+		                   required: true,
+		                   dateTime: true
+		            	  },
+				  dtpDate2: {
+                                   required: true,
+		                   dateTime: true
+		            	  },
+//		  chkReqTypeRes_add: {
+//					required: "#optReqTypeResearch:checked",
+//				 },
+//		  chkReqTypeGen_add: {
+//					required: "#optReqTypeGeneral:checked",
+//				 },
+
+				  txtNotes: {
+						 maxlength: 1200,
+					}		
+				}	 
+		//messages: { txtCourseNum: "Course number is required" }
+	});
+
+	jQuery.validator.addMethod(
+           "multiemails",
+           function(value, element) {
+             if (this.optional(element)) // return true on optional element 
+                 return true;
+             var emails = value.split(/[;,]+/); // split element by , and ;
+             valid = true;
+             for (var i in emails) {
+                 value = emails[i];
+                 valid = valid &&
+                 jQuery.validator.methods.email.call(this, $.trim(value), element);
+             }
+             return valid;
+           },
+
+           jQuery.validator.messages.email
+	);
+	
+	// multi-step form - http://www.jankoatwarpspeed.com/turn-any-webform-into-a-powerful-wizard-with-jquery-formtowizard-plugin/
+	$("#frmReq").formToWizard({
+		//submitButton: "btnSubmit",
+		validationEnabled: true,
+		afterSubmitStep: true,
+		onComplete: MakeItSo
+	});
+	
+	// Calendar widget - http://trentrichardson.com/examples/timepicker/
+	$('input[name^="dtp"]').datetimepicker({
+		showOn: 'button',
+		buttonText: 'Select date and time',
+        buttonImage: '/media/vcc-library/style-assets/images/calendar-24.png',		
+	        //addSliderAccess: true,
+	        //sliderAccessArgs: { touchonly: false },
+		controlType: 'select',
+                //oneLine: true,
+		timeInput: true,		
+		//timeFormat: 'h:mm tt',
+                timeFormat: 'hh:mm tt',
+		amNames: ['a.m.'],
+		pmNames: ['p.m.'],
+		stepMinute: 15,
+		hourMin: 8,
+		hourMax: 20,
+		minDate: 0,
+		defaultDate: +3				 
+	});
+
+	$('#test_datetime').datetimepicker({
+		controlType: 'select',
+		timeFormat: 'hh:mm tt'
+	});
+
+
+	
+	// ************** CF file call ********************
+    function MakeItSo() {
+		//document.frmReq.submit();
+		//$.post('/cfm-files/formSubmit.cfm', $('form#frmReq').serialize(), function(data) {
+		//$.post('/cfm-files/_frmBookingClass_1.cfm', $('#frmReq').serialize(), function(data) {
+		$.post('https://library.vcc.ca/forms/librarytourresearchclass', $('#frmReq').serialize(), function(data) {
+
+			$('#finishStep').html(data);
+		});
+	}
+
+	// *************** Clone items code ***************
+
+	// show/hide Course sections
+	$('#step0Next').click( function() {
+			$('div#sec_COURSE').myShow();
+	});
+
+
+	$('#step1Reset').click( function() {
+		var removeItems = $('#itemsContainer').find('.extraItem:gt(0)');
+		$.each(removeItems, function(index, element) {
+			  if ( $('.extraItem').length > 1) { $(element).remove(); }
+			});
+	});
+
+	// Clone itemTemplate section on btnAddItem click
+	$('div[id^="itemTemplate"').attr('style', 'display: none;');
+	$('div[id^="itemTemplate"').attr('aria-hidden', 'true');
+	var template = jQuery.validator.format($.trim($("#itemTemplate").val()));
+
+	$('#step0Next').click( function() {
+           if ( $.trim( $('#itemsContainer').text() ).length == 0 ) {
+		$('<div/>', {
+			'class' : 'extraItem',
+			html: addItem()
+		}).hide().appendTo('#itemsContainer').slideDown('slow');
+
+
+		$('input[name^="dtp"]').removeClass('hasDatepicker');
+		$('button.ui-datepicker-trigger').remove();
+		$('input[name^="dtp"]').datetimepicker({
+			showOn: 'button',
+			buttonText: 'Select date and time',
+	        buttonImage: '/media/vcc-library/style-assets/images/calendar-24.png',		
+			controlType: 'select',
+			timeInput: true,		
+            timeFormat: 'hh:mm tt',
+			amNames: ['a.m.'],
+			pmNames: ['p.m.'],
+			stepMinute: 15,
+			hourMin: 8,
+			hourMax: 20,
+			minDate: 0,
+			defaultDate: +3				 
+		});
+           }
+	});
+
+	$('#btnAddItem').click( function() {
+		$('<div/>', {
+			'class' : 'extraItem',
+			html: addItem()
+		}).hide().appendTo('#itemsContainer').slideDown('slow');
+
+
+		$('input[name^="dtp"]').removeClass('hasDatepicker');
+		$('button.ui-datepicker-trigger').remove();
+		$('input[name^="dtp"]').datetimepicker({
+			showOn: 'button',
+			buttonText: 'Select date and time',
+	        buttonImage: '/media/vcc-library/style-assets/images/calendar-24.png',		
+			controlType: 'select',
+			timeInput: true,		
+            timeFormat: 'hh:mm tt',
+			amNames: ['a.m.'],
+			pmNames: ['p.m.'],
+			stepMinute: 15,
+			hourMin: 8,
+			hourMax: 20,
+			minDate: 0,
+			defaultDate: +3				 
+		});
+
+
+	});
+
+	function addItem(){ //Get the template and update the input field names
+		var len = $('.extraItem').length + 1;
+
+		var $html = $('#itemTemplate_BK').clone();
+
+		var labels = $html.find('label');
+		$.each(labels, function(index, element) {
+				$(element).prop('for', $(element).prop('for') + '_' + len);
+			});
+
+		var inputs = $html.find('input');
+		$.each(inputs, function(index, element) {
+				if ($(element).hasClass('chkArray')) {
+					$(element).prop('name', $(element).prop('name') + '_' + len + '[]');
+					$(element).prop('id', $(element).prop('id') + '_' + len + '[]');
+				} else {
+					$(element).prop('id', $(element).prop('id') + '_' + len);
+					$(element).prop('name', $(element).prop('name') + '_' + len);
+				}
+
+			});
+
+		var selects = $html.find('select');
+		$.each(selects, function(index, element) {
+				$(element).prop('id', $(element).prop('id') + '_' + len);
+				$(element).prop('name', $(element).prop('name') + '_' + len);
+			});
+
+		var textareas = $html.find('textarea');
+		$.each(textareas, function(index, element) {
+				$(element).prop('id', $(element).prop('id') + '_' + len);
+				$(element).prop('name', $(element).prop('name') + '_' + len);
+			});
+
+		var divs = $html.find('div');
+		$.each(divs, function(index, element) {
+				$(element).prop('id', $(element).prop('id') + '_' + len);
+				$(element).prop('name', $(element).prop('name') + '_' + len);
+				//$(element).prop('class', $(element).prop('class') + '_' + len);
+			});
+
+/*		var divs = $html.find('div');
+		$.each(divs, function(index, element) {
+				$(element).prop('id', $(element).prop('id') + '_' + len);
+			});
+*/
+		$html.find('h3').html('Item #' + len);
+		$('#txtNItems').val(len);
+		return $html.html();
+	}
+
+
+
+	// Remove button click handler
+	$('#frmReq').on('click', '.btnRemoveItem', function(events) {
+		var len = $('.extraItem').length;
+		if (len > 1){
+			$(this).parents('div.extraItem').remove();
+		} else {
+			$(this).closest("#step1 div.extraItem").find("input[type=text], textarea").val("");
+		}
+
+		var len = $('.extraItem').length;
+		$('#txtNItems').val(len).text(len);
+
+		renumberBlocks();
+	});
+
+	function renumberBlocks() {
+		//var len = $('.extraItem').length;
+		//var tmp = '_' + len;
+
+		$('.extraItem').each(function(index) {
+			var indexItem = $(this).index('.extraItem') + 1;
+			var tmp = '_' + indexItem;
+                        var tmp2 = '_' + indexItem + '[]';
+
+			var labels = $(this).find('label');
+			$.each(labels, function(index, element) {
+				$(element).attr('for', $(element).attr('for').replace(/\_([^)]+)/,tmp));
+			});
+
+			var inputs = $(this).find('input');
+			$.each(inputs, function(index, element) {
+				if ($(element).hasClass('chkArray')) {
+					$(element).attr('id', $(element).attr('id').replace(/\_([^)]+)/,tmp2));
+					$(element).attr('name', $(element).attr('name').replace(/\_([^)]+)/,tmp2));
+				} else {
+					$(element).attr('id', $(element).attr('id').replace(/\_([^)]+)/,tmp));
+					$(element).attr('name', $(element).attr('name').replace(/\_([^)]+)/,tmp));
+				}
+			});
+
+			var selects = $(this).find('select');
+			$.each(selects, function(index, element) {
+					$(element).prop('id', $(element).prop('id') + '_' + tmp);
+					$(element).prop('name', $(element).prop('name') + '_' + tmp);
+				});
+
+/*			var divs = $html.find('div');
+				$.each(divs, function(index, element) {
+				$(element).prop('id', $(element).prop('id') + '_' + len);
+			});
+*/
+			$(this).find('h3').html('Item #' + indexItem);
+		});
+	}
+
+
+
+
+});
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6LffB8gUAAAAAFDdNDY6dqz-94Of9yu1GPiROTOZ"></script>
+<script>
+    grecaptcha.ready(function() {
+        grecaptcha.execute('6LffB8gUAAAAAFDdNDY6dqz-94Of9yu1GPiROTOZ', {action: 'llc_book_class'}).then(function(token) {
+          // add token value to form
+          document.getElementById('g-recaptcha-response').value = token;
+        });
+    });
+</script>
+
+<div class="formBox" role="form">
+  <form id="frmReq" name="frmReq">
+
+    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+
+    <input type="hidden"  name="process" value="frmBookingClass">
+    <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+    <input type="hidden" id="g-action" name="g-action" value="llc_book_class">
+
+    <fieldset class="formStep">
+      <legend class="lgnStep">Instructor Details</legend>
+      <p>(*) required fields</p>
+      <label for="txtFullName" class="required">Instructor Name:</label>
+      <input type="text" name="txtFullName" id="txtFullName" type="text" required /><br />
+      <label for="txtDept" class="required">Department:</label>
+      <input type="text" name="txtDept" id="txtDept" required /><br />
+      <label for="txtPhone">Phone:</label>
+      <input type="text" name="txtPhone" id="txtPhone" data-rule-minlength="4" data-msg-minlength="Please enter at least 4 digits." data-rule-maxlength="25" data-msg-maxlength="Please enter maximum of 25 characters." /><br />
+      <label for="txtEmail" class="required">Email:</label>
+      <input type="text" name="txtEmail" id="txtEmail" data-msg-required="Please enter your email address." data-msg-multiemails="Please enter a valid email address." /><br /> 
+<em>For multiple emails, place comma or semicolon between email addresses</em>
+
+    </fieldset>
+    
+    <fieldset class="formStep">
+	    <legend class="lgnStep">Course Details and<br> Topics Options </legend>
+	    <div id="sec_COURSE">
+		    <div id="itemTemplate_BK">
+		    	  <h3>Item</h3>
+			      <p>(*) required fields</p>
+			      <!--<label for="txtCourse" class="required">Course Name & Number (e.g., CPE 098):</label>-->
+			      <strong>Course Name & Number (e.g., CPE 098):</strong><br />   
+			      <input type="text" name="txtCourse" id="txtCourse" required><br />
+			      <label for="txtProg" class="required">Program:</label>
+			      <input type="text" name="txtProg" id="txtProg" required><br />
+			      <label for="txtNoStudents" class="required">No. of Students:</label>
+			      <input type="text" name="txtNoStudents" id="txtNoStudents" data-rule-required="true" data-rule-number="true" data-msg-required="Please enter number of students." data-msg-number="Please enter numbers only."><br />
+			      <span class="horizontal">        
+            <fieldset>
+                <ul>
+                    <li><Label for="optCampus" class="required">Campus:</Label></li>
+                    <li><label for="optCampusBWY"><input type="radio" name="optCampus" id="optCampusBWY" value="Broadway" class="required"/> Broadway</label></li>      
+                    <li><label for="optCampusDTN"><input type="radio" name="optCampus" id="optCampusDTN" value="Downtown" class="required"/> Downtown</label></li>      
+                    <li><label for="optCampusANN"><input type="radio" name="optCampus" id="optCampusANN" value="Annacis" class="required"/> Annacis Island</label></li>		
+                    <input type="radio" name="optCampus" id="optCampusNull" value="null" style="display:none;" />
+                </ul> <label for="optCampus" class="error"></label>
+
+
+                <ul>
+                    <li><Label for="optDelivery" class="required">Delivery:</Label></li>
+                    <li><label for="optDeliveryOL"><input type="radio" name="optDelivery" id="optDeliveryOL" value="Online" class="required"/> On-line</label></li>      
+                    <li><label for="optDeliveryIP"><input type="radio" name="optDelivery" id="optDeliveryIP" value="InPerson" class="required"/> In Person</label></li>      
+                    <input type="radio" name="optDelivery" id="optDeliveryNull" value="null" style="display:none;" />
+                </ul> <label for="optDelivery" class="error"></label>
+
+            </fieldset>
+			      </span>
+			      <strong>Date Details</strong><br />   
+			      <label for="dtpDate" class="required">First choice date and time (mm/dd/yyyy hh:mm):</label>
+			      <input type="text" name="dtpDate" id="dtpDate" class="datePick" readonly required><br />
+			      <label for="dtpDate2" class="required">Second choice date and time (mm/dd/yyyy hh:mm):</label>
+			      <input type="text" name="dtpDate2" id="dtpDate2" class="datePick" readonly required> 
+
+			      <div id="liveRegion" role="log" aria-live="assertive" aria-atomic="true" aria-relevant="additions" message = ' ' + $('.ui-state-hover').html() + ' ' + $('.ui-datepicker-month').html() + ' ' + $('.ui-datepicker-year').html();></div> 
+
+				  <!--<p><strong>Type of Instruction</strong></p>-->
+			      <span class="horizontal" >
+			      <fieldset >      
+				  <label for="optReqType" class="required"><strong>Type of Instruction:</strong></Label>
+				  <label for="optReqType" class="error"></label><br />
+				  <label for="optReqTypeTour" ><input type="radio" name="optReqType" id="optReqTypeTour" value="Library Tour" class="required LibraryTour"> <strong>Library Tour</strong> - 30 minutes</label><br />
+			           
+			      <label for="optReqTypeResearch"><input type="radio" name="optReqType" id="optReqTypeResearch" value="Research Class" class="required ResearchClass"> <strong>Research Class</strong> - 60-90 minutes (covers library website, catalogue and databases)</label><br />      
+			      <div id="reqTypeResearch" class="reqTypeResearch formSection">
+			      <label for="optReqTypeResearch">You can choose the following topics to add to your research class. Additional time might be required:</label>
+			        <fieldset>
+			          <label for="chkReqTypeRes_addTour"><input type="checkbox" name="chkReqTypeRes_add" id="chkReqTypeRes_addTour" value="Quick Tour" class="chkArray" /> Quick Tour of the Library</label><br />
+			          <label for="chkReqTypeRes_addWebEval"><input type="checkbox" name="chkReqTypeRes_add" id="chkReqTypeRes_addWebEval" value="Website Evaluation" class="chkArray" /> Website Evaluation</label><br />
+			          <label for="chkReqTypeRes_addSrcEval"><input type="checkbox" name="chkReqTypeRes_add" id="chkReqTypeRes_addSrcEval" value="Sources Evaluation" class="chkArray" /> Scholarly vs Popular Sources</label><br />
+			          <label for="chkReqTypeRes_addJobSearch"><input type="checkbox" name="chkReqTypeRes_add" id="chkReqTypeRes_addJobSearch" value="Career or Job Search" class="chkArray"/> Career / Job Search</label><br />
+			          <label for="chkReqTypeRes_addPlg"><input type="checkbox" name="chkReqTypeRes_add" id="chkReqTypeRes_addPlg" value="Plagiarism" class="chkArray" /> Plagiarism & Citation Styles
+			          <select name="cboReqTypeRes_addPlg2" id="cboReqTypeRes_addPlg2">
+			            <option value="" selected="selected">-- Select --</option>
+			            <option value="APA">APA</option>
+			            <option value="MLA">MLA</option>
+			            <option value="ASA">ASA</option>
+			            <option value="Vancouver">Vancouver</option>
+			            <option value="Other">Other</option>
+			          </select>
+			          </label>
+			      	</fieldset>
+			      <div id="txtReqTypeRes_addPlgOther_box">              
+			      <label for="txtReqTypeRes_addPlgOther">Please specify: 
+			      <input type="text" name="txtReqTypeRes_addPlgOther" id="txtReqTypeRes_addPlgOther" /></label>
+			      </div>
+			      </div>    
+			      
+			      <label for="optReqTypeGeneral"><input type="radio" name="optReqType" id="optReqTypeGeneral" value="Library Research Skills" class="required NonResearchClass"> <strong>Non-Research Class</strong> - 60 minutes</label>     
+			      <div id="reqTypeGeneral" class="reqTypeGeneral formSection">
+			      <label for="optReqTypeGeneral">You can choose the following topics to your non-research class:</label>
+			      <fieldset>
+			        <label for="chkReqTypeGen_addCopyright"><input type="checkbox" name="chkReqTypeGen_add" id="chkReqTypeGen_addCopyrights" value="Copyrights" class="chkArray"/> Copyright</label><br />
+			        <label for="chkReqTypeGen_addJobSearch"><input type="checkbox" name="chkReqTypeGen_add" id="chkReqTypeGen_addJobSearch" value="Career or Job Search" class="chkArray" /> Career / Job Search</label><br />
+			        <label for="chkReqTypeGen_addPlg"><input type="checkbox" name="chkReqTypeGen_add" id="chkReqTypeGen_addPlg" value="Plagiarism" class="chkArray"/> Plagiarism & Citation Styles
+			          <select name="cboReqTypeGen_addPlg2" id="cboReqTypeGen_addPlg2">
+			          <option value="">-- Select --</option>
+			          <option value="APA">APA</option>
+			          <option value="MLA">MLA</option>
+			          <option value="ASA">ASA</option>
+			          <option value="Vancouver">Vancouver</option>
+			          <option value="Other">Other</option>
+			        </select>
+			        </label>
+			      </fieldset>
+			      <div id="txtReqTypeGen_addPlgOther_box">
+			      <label for="txtReqTypeGen_addPlgOther">Please specify:
+			      <input type="text" name="txtReqTypeGen_addPlgOther" id="txtReqTypeGen_addPlgOther"></label>
+			      </div>      
+			      </div>
+			      
+			      </fieldset>
+			      </span>      
+			      
+			      <p><strong>If a computer lab is needed, please provide:</strong></p>
+			      <label for="txtTerm">TERM:</label><input type="text" name="txtTerm" id="txtTerm" /><br />
+			      <label for="txtCrn">CRN:</label><input type="text" name="txtCrn" id="txtCrn" /><br />
+			      <label for="txtNotes">Additional comments (1200 characters max.):</label><br />
+			      <textarea name="txtNotes" id="txtNotes" cols="55" rows="6" maxlength="1200"></textarea>
+		    
+		      <p><input type="button" class="btnRemoveItem" id="btnRemoveItem" name="btnRemoveItem" value="Remove Item" /></p>
+
+		    </div> <!-- itemTemplate_BK -->
+
+			<div id="itemsContainer"></div>
+		      <p>Total of requested items - <input type="text" id="txtNItems" name="txtNItems" value="1" readonly />&nbsp;&nbsp;
+		      <input type="button" id="btnAddItem" name="btnAddItem" value="Add Another Item" />
+		      </p>
+	    </div> 
+
+	    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+        <script>
+        $(document).ready(function(){
+
+			$( "body" ).on( "click", "input.LibraryTour", function() {
+
+			  str = $(this).attr('id');
+		  	  n = str.indexOf("_")+1;
+		  	  res = str.substring(n, n+2);
+		  	  reqTSearch_name = "reqTypeResearch_" + res;
+		  	  reqTGeneral_name = "reqTypeGeneral_" + res;
+
+			  if ( $(this).is(':checked')){
+
+					$('#'+reqTSearch_name).hide();
+					$('#'+reqTGeneral_name).hide();
+
+					//$('.reqTypeResearch').hide();
+					//$('.reqTypeGeneral').hide();
+				}
+			});
+
+			$( "body" ).on( "click", "input.ResearchClass", function() {
+
+              str = $(this).attr('id');
+		  	  n = str.indexOf("_")+1;
+		  	  res = str.substring(n, n+2);
+		  	  reqTSearch_name = "reqTypeResearch_" + res;
+		  	  reqTGeneral_name = "reqTypeGeneral_" + res;
+
+			  if ( $(this).is(':checked')){
+
+			  		$('#'+reqTSearch_name).show();
+					$('#'+reqTGeneral_name).hide();
+
+					//$('.reqTypeResearch').show();
+					//$('.reqTypeGeneral').hide();
+				} else {
+
+					$('#'+reqTSearch_name).hide();
+
+					//$(".reqTypeResearch").hide();
+				}
+			});
+
+			$( "body" ).on( "click", "input.NonResearchClass", function() {
+
+			  str = $(this).attr('id');
+		  	  n = str.indexOf("_")+1;
+		  	  res = str.substring(n, n+2);
+		  	  reqTSearch_name = "reqTypeResearch_" + res;
+		  	  reqTGeneral_name = "reqTypeGeneral_" + res;
+
+			  if ( $(this).is(':checked')){
+			  	$('#'+reqTSearch_name).hide();
+				$('#'+reqTGeneral_name).show();
+
+				//$('.reqTypeResearch').hide();
+				//$('.reqTypeGeneral').show();
+			  } else {
+			  	$('#'+reqTGeneral_name).hide();
+
+				//$(".reqTypeGeneral").hide();
+			  }
+
+			});
+
+			
+
+         }) // End document ready
+        </script> 
+
+    </fieldset>
+
+    
+    <fieldset class="formStep">
+    	<legend class="lgnStep">Confirmation</legend>
+
+        <div id="finishStep"></div>
+    </fieldset>
+    </form>
+
+</div>
+
+<div class="formMessage" role="message"><p style='color:red'>The Safari browser is not supported for this form, please use Chrome, Firefox or IE</p></div>
+
+<script> 
+    $('div.formMessage').hide();
+    // Validate Safari browser is not supported for this form
+    var nVer = navigator.appVersion;
+    var nAgt = navigator.userAgent;
+    var browserName  = navigator.appName;
+    var fullVersion  = ''+parseFloat(navigator.appVersion); 
+    var majorVersion = parseInt(navigator.appVersion,10);
+    var nameOffset,verOffset,ix;
+    // In Opera, the true version is after "Opera" or after "Version"
+    if ((verOffset=nAgt.indexOf("Opera"))!=-1) {
+        browserName = "Opera";
+        fullVersion = nAgt.substring(verOffset+6);
+        if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+            fullVersion = nAgt.substring(verOffset+8);
+    }
+    // In MSIE, the true version is after "MSIE" in userAgent
+    else if ((verOffset=nAgt.indexOf("MSIE"))!=-1) {
+        browserName = "Microsoft Internet Explorer";
+        fullVersion = nAgt.substring(verOffset+5);
+    }
+    // In Chrome, the true version is after "Chrome" 
+    else if ((verOffset=nAgt.indexOf("Chrome"))!=-1) {
+        browserName = "Chrome";
+        fullVersion = nAgt.substring(verOffset+7);
+    }
+    // In Safari, the true version is after "Safari" or after "Version" 
+    else if ((verOffset=nAgt.indexOf("Safari"))!=-1) {
+        browserName = "Safari";
+        fullVersion = nAgt.substring(verOffset+7);
+        if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+            fullVersion = nAgt.substring(verOffset+8);
+
+        $('div.formMessage').show();
+        document.getElementById("frmReq").style.display = "none";
+    }
+</script>

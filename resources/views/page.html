@@ -1,0 +1,1223 @@
+
+<!--<DOCTYPE HTML PUBLIC "-//w3c//dtd html 3.2//en" >-->
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+
+    <html>
+    
+    <!--- EZproxy login page for VCC Library--->
+    
+    <head>
+       <!--<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />-->
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">   
+       <title>ezProxy Login</title>
+       
+       <!--<link href="/public/vcclib2010.css" rel="stylesheet" type="text/css">-->
+       
+       <!-- styles from new Header -->
+       
+       <link rel="stylesheet" type="text/css" media="" href="/public/jquery-ui.css">           <!-- jquery-ui-css || library -->
+       <link rel="stylesheet" type="text/css" media="screen" href="/public/style_vcc.css"> 		<!--     style_vcc.css || vcc site styles -->    
+       <link rel="stylesheet" type="text/css" media="screen" href="/public/international-style.css"> 		<!-- international-style.css || vcc site styles --> 
+       <link rel="stylesheet" type="text/css" media="screen" href="/public/library-style.css">  		<!-- library-style.css -->       
+       <link rel="stylesheet" type="text/css" media="print" href="/public/library-print.css">       <!-- library-print.css -->
+    
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">   
+    
+    <!--
+       <script id="twitter-wjs" src="./VCC Library and Learning Centre - Vancouver Community College - Library and Learning Centre_files/widgets.js.download"></script><script id="s-lg-widget-script-1450470869077" src="./VCC Library and Learning Centre - Vancouver Community College - Library and Learning Centre_files/widgets.php"></script>
+       <script id="s-lg-widget-script-1452291852100" src="./VCC Library and Learning Centre - Vancouver Community College - Library and Learning Centre_files/widgets(1).php"></script> 
+       <script id="facebook-jssdk" src="./VCC Library and Learning Centre - Vancouver Community College - Library and Learning Centre_files/all.js.download"></script> -->
+    
+       <script type="text/javascript" src="/public/jquery.js"></script> 	 <!--jquery-js || library -->
+       <script type="text/javascript" src="/public/jquery-ui.js"></script>    <!-- jquery-ui-js || library -->
+       <script type="text/javascript" src="/public/jquery.cycle.js"></script> 	<!-- cycle.js || vcc site styles -->
+       <script type="text/javascript" src="/public/lightview.js"></script> 	<!-- lightview.js || vcc site styles -->
+       <script type="text/javascript" src="/public/responsiveslides.min.js"></script>	<!-- responsiveslides.min.js || vcc site styles -->
+       <script type="text/javascript" src="/public/vcc-scripts.js"></script> 	<!-- vcc-scripts.js || vcc site styles -->
+       <script type="text/javascript" src="/public/library-javascript.js"></script>    <!-- library-javascript.js || library -->
+    
+       
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+      WebFont.load({
+        google: {
+          families: ['Roboto','Droid Sans', 'Droid Serif']
+        }
+      });
+    </script>
+    
+       
+     <script language="javascript">
+       
+       
+       <!--- HIDE FROM OLD BROWSERS
+          function WM_netscapeCssFix()
+          {
+             if (document.WM.WM_netscapeCssFix.initWindowWidth != window.innerWidth || 
+                 document.WM.WM_netscapeCssFix.initWindowHeight != window.innerHeight)
+             {
+                document.location = document.location;
+             }
+          }
+       
+          function WM_netscapeCssFixCheckIn()
+          {
+             if ((navigator.appName == 'Netscape') && (parseInt(navigator.appVersion) == 4))
+             {
+                if (typeof document.WM == 'undefined')
+                {
+                   document.WM = new Object;
+                }
+       
+                if (typeof document.WM.WM_scaleFont == 'undefined')
+                {
+                   document.WM.WM_netscapeCssFix = new Object;
+                   document.WM.WM_netscapeCssFix.initWindowWidth = window.innerWidth;
+                   document.WM.WM_netscapeCssFix.initWindowHeight = window.innerHeight;
+                }
+                window.onresize = WM_netscapeCssFix;
+             }
+          }
+       
+          WM_netscapeCssFixCheckIn()
+       
+       // END HIDING --->
+       </script>
+       
+       
+       <style type="text/css" media="screen">		
+                td label   	{ font-size: 0.85em ; padding-right: 0.2em; }
+                label 		{ font-size: 0.77em; padding-right: 0.2em; }
+                .instructions 	{ color: #000000; font-family: verdana, arial, heveltica; font-size: 12px; margin: 6px 10px 10px 5px; font-weight:bold;}
+            </style>
+    <SCRIPT language="javascript"> 
+    <!-- 
+    
+    function student() {  
+        document.IDPLogin.typeLogin.value = "student";
+        /*document.getElementsByName('user')[0].placeholder='1';*/
+        /*document.getElementById("typeLogin").value = "student";*/
+        document.getElementById("user").placeholder = "Student ID Number";
+        document.getElementById("description").innerHTML = "›› Enter your VCC Student ID Number (NUMERIC ONLY - No \"S\")";
+    }
+    
+    function employee() {  
+        document.IDPLogin.typeLogin.value = "employee";
+        /*document.getElementsByName('user')[0].placeholder='2';
+        document.getElementById("typeLogin").value = "employee";*/
+        document.getElementById("user").placeholder = "Network Username";
+        document.getElementById("description").innerHTML = "›› Enter your VCC network login Username";
+    }
+    
+    
+    function makeItSo() 
+    {  
+      if (document.IDPLogin.typeLogin.value == "student") {  
+       
+         var fullstudentid; 
+         var uppercaseS;
+         var lowercaseS;	 
+                    
+      if ( trim(document.IDPLogin.user.value) == "") {
+            document.IDPLogin.pass.style.backgroundColor = '#ffffff';
+            document.IDPLogin.pass.style.color = '#000000';               
+            window.alert('Please enter your STUDENT ID NUMBER (Numeric Only).'); 
+            document.IDPLogin.user.style.backgroundColor = '#FFD197';
+            document.IDPLogin.user.style.color = '#000000';
+            document.IDPLogin.user.focus();
+           }    
+       
+      else if ( trim(document.IDPLogin.user.value) != "" && (trim(document.IDPLogin.user.value).length < 7 || trim(document.IDPLogin.user.value).length > 10)) {
+            document.IDPLogin.pass.style.backgroundColor = '#ffffff';
+            document.IDPLogin.pass.style.color = '#000000';
+            window.alert('STUDENT ID NUMBER is NOT CORRECT.\n\nPlease try again.'); 
+            document.IDPLogin.user.style.backgroundColor = '#FFD197';
+            document.IDPLogin.user.style.color = '#000000';
+            document.IDPLogin.user.focus();
+           }    
+           
+        
+     else if ( trim(document.IDPLogin.pass.value) == "") {
+            document.IDPLogin.user.style.backgroundColor = '#ffffff';
+            document.IDPLogin.user.style.color = '#000000';
+            window.alert('Please enter your PASSWORD (case-sensitive).'); 
+            document.IDPLogin.pass.style.backgroundColor = '#FFD197';
+            document.IDPLogin.pass.style.color = '#000000';
+            document.IDPLogin.pass.focus();
+           }    
+           
+     else if ( trim(document.IDPLogin.pass.value).length < 6) {
+       
+            document.IDPLogin.user.style.backgroundColor = '#ffffff';
+            document.IDPLogin.user.style.color = '#000000';
+            window.alert('Password format incorrect. Please try again.');  
+            document.IDPLogin.pass.style.backgroundColor = '#FFD197';
+            document.IDPLogin.pass.style.color = '#000000';
+            document.IDPLogin.pass.focus();
+           }               
+                
+      else {
+            document.IDPLogin.user.style.backgroundColor = '#ffffff';
+            document.IDPLogin.user.style.color = '#000000';
+            document.IDPLogin.pass.style.backgroundColor = '#ffffff';
+            document.IDPLogin.pass.style.color = '#000000';
+       
+            lowercaseS=trim(document.IDPLogin.user.value).indexOf('s');
+            uppercaseS=trim(document.IDPLogin.user.value).indexOf('S');
+            
+            if (uppercaseS == 0 && lowercaseS < 0) {
+               var newString = trim(document.IDPLogin.user.value).substr(1);
+            document.IDPLogin.user.value = trim(newString);
+            document.IDPLogin.submit();
+                }
+                
+            if (lowercaseS == 0 && uppercaseS < 0) {
+            var newString = trim(document.IDPLogin.user.value).substr(1);
+            document.IDPLogin.user.value = trim(newString);
+            document.IDPLogin.submit();
+                }	
+            
+            if (uppercaseS < 0  && lowercaseS < 0) {
+              document.IDPLogin.submit();
+                }
+             } 
+          }
+       
+      else if (document.IDPLogin.typeLogin.value == "employee") {
+                if ( trim(document.IDPLogin.user.value) == "") {
+                  window.alert('Please enter your VCC NETWORK USERNAME.');  
+                   document.IDPLogin.user.style.backgroundColor = '#FFD197';
+                   document.IDPLogin.user.style.color = '#000000';
+                   document.IDPLogin.user.focus();
+                }    
+           
+             else if ( trim(document.IDPLogin.pass.value) == "") {
+                   window.alert('Please enter your PASSWORD (case-sensitive).');  
+                   document.IDPLogin.pass.style.backgroundColor = '#FFD197';
+                   document.IDPLogin.pass.style.color = '#000000';
+                   document.IDPLogin.pass.focus();
+                 }        
+                    
+         else {
+               document.IDPLogin.user.style.backgroundColor = '#ffffff';
+               document.IDPLogin.user.style.color = '#000000';
+               document.IDPLogin.pass.style.backgroundColor = '#ffffff';
+               document.IDPLogin.pass.style.color = '#000000';
+               document.IDPLogin.submit();
+              } 
+            }
+       
+      else {
+             document.IDPLogin.user.style.backgroundColor = '#ffffff';
+             document.IDPLogin.user.style.color = '#000000';
+             document.IDPLogin.pass.style.backgroundColor = '#ffffff';
+             document.IDPLogin.pass.style.color = '#000000';
+             window.alert('Please select your LOGIN type.');
+             }
+         }        
+       
+    //-->
+       
+    </SCRIPT> 
+       
+    <script type="text/javascript">
+    <!-- 
+        function hide(el) {
+            el_obj = document.getElementById(el)
+            el_obj.style.display = 'none';
+        }
+        
+        function show(el) {
+            el_obj = document.getElementById(el)
+            el_obj.style.display = 'block';
+        }
+        
+    /*	function student() {
+            document.IDPLogin.type[0].checked = true;
+            document.IDPLogin.user.style.backgroundColor = '#ffffff';
+            document.IDPLogin.user.style.color = '#000000';
+            document.IDPLogin.user.focus();
+        }
+        
+        function staff() {
+            document.IDPLogin.type[1].checked = true;
+            document.IDPLogin.user.style.backgroundColor = '#ffffff';
+            document.IDPLogin.user.style.color = '#000000';
+            document.IDPLogin.user.focus();		
+        }*/
+        
+        function clear() {
+            document.IDPLogin.user.style.backgroundColor = '#ffffff';
+            document.IDPLogin.pass.style.backgroundColor = '#ffffff';
+         }
+         
+       function pwdhelp() {
+             window.alert('IF THIS IS THE FIRST TIME TIME YOU LOGIN,the password\nis initially set to your birthdate in the format of MMDDYY.\n\nExample: If your birthdate is January 25, 1975\n\nYour Password is: 012575\n\n\n');  
+            document.IDPLogin.pass.focus();
+        }
+        
+        
+    menus_status_array = new Array ();// remember switches
+    img_close = 'rollup';
+    img_open = 'rolldown';
+        
+        
+    function toggleSheet(theid) {
+      if (document.getElementById) {
+        var switch_id = document.getElementById(theid);
+        var imgid = theid+'Button';
+        var button_id = document.getElementById(imgid);
+        if (menus_status_array[theid] != 'show') {
+          button_id.className = 'rolldown';
+          switch_id.className = 'showSwitch';
+          menus_status_array[theid] = 'show';
+          document.cookie = theid+'=show';
+        } else {
+          button_id.className = 'rollup';
+          switch_id.className = 'hideSwitch';
+          menus_status_array[theid] = 'hide';
+          document.cookie = theid+'=hide';
+        }
+      }
+    }  
+       
+    //-->
+    </script>
+       
+    <SCRIPT TYPE="text/javascript">
+    <!--
+       
+    function trim(inputString) {
+       if (typeof inputString != "string") { return inputString; }
+       var retValue = inputString;
+       var ch = retValue.substring(0, 1);
+       while (ch == " ") { 
+          retValue = retValue.substring(1, retValue.length);
+          ch = retValue.substring(0, 1);
+       }
+       ch = retValue.substring(retValue.length-1, retValue.length);
+       while (ch == " ") { 
+          retValue = retValue.substring(0, retValue.length-1);
+          ch = retValue.substring(retValue.length-1, retValue.length);
+       }
+       while (retValue.indexOf("  ") != -1) { 
+          retValue = retValue.substring(0, retValue.indexOf("  ")) + retValue.substring(retValue.indexOf("  ")+1, retValue.length); 
+       }
+       return retValue;
+    }  
+       
+    //-->
+    </SCRIPT>
+       
+       
+    <SCRIPT language="JavaScript">
+    <!--
+       function handleKeystroke(e) {
+          var keyPressed;
+          
+           //Browser compatibility check
+          if (document.all) {
+             //Browser used: IE
+               keyPressed = e.keyCode;
+             } 
+          else {
+            //Browser used: Non-IE
+            keyPressed = e.which;
+             }
+            //13 = ASCII code for Enter key
+        
+          if (keyPressed == 13) { 
+              makeItSo();
+           } 
+          else {
+            //alert('handleKeystroke: pressed another key');
+           }
+       }
+    //-->
+    </SCRIPT>
+       
+    <!-- GOOGLE Analytics -->
+    <script type="text/javascript">
+    <!--
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-822672-4']);
+      _gaq.push(['_trackPageview']);
+       
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    //-->
+    </script>
+    
+    <script language="JavaScript">
+        <!--	
+        function openWindow( pageToLoad, winName, width, height, center) {
+                         
+            xposition=0; 
+            yposition=0;
+            screenwidth = width;
+            screenheight = height;
+            
+            if ((parseInt(navigator.appVersion) >= 4 ) && (center)){
+                xposition = (screen.width - width) / 2;
+                yposition = (screen.height - height) / 2;
+            }
+            
+            args = "width=" + screenwidth + "," 
+            + "height=" + screenheight + "," 
+            + "location=0," 
+            + "menubar=0,"
+            + "resizable=1,"
+            + "scrollbars=1,"
+            + "status=0," 
+            + "titlebar=0,"
+            + "toolbar=1,"
+            + "hotkeys=1,"
+            + "screenx=" + xposition + ","  //NN Only
+            + "screeny=" + yposition + ","  //NN Only
+            + "left=" + xposition + ","     //IE Only
+            + "top=" + yposition;           //IE Only
+        
+            window.open( pageToLoad,winName,args );
+        }
+    
+    $(function(){
+    
+        var appendthis =  ("<div class='modal-overlay js-modal-close'></div>");
+    
+          $('a[data-modal-id]').click(function(e) {
+            e.preventDefault();
+            $("body").append(appendthis);
+            $(".modal-overlay").fadeTo(500, 0.7);
+            //$(".js-modalbox").fadeIn(500);
+            var modalBox = $(this).attr('data-modal-id');
+            $('#'+modalBox).fadeIn($(this).data());
+          });  
+          
+          
+        $(".js-modal-close, .modal-overlay").click(function() {
+          $(".modal-box, .modal-overlay").fadeOut(500, function() {
+            $(".modal-overlay").remove();
+          });
+    });
+     
+        $(window).resize(function() {
+              $(".modal-box").css({
+                top: ($(window).height() - $(".modal-box").outerHeight()) / 2,
+                left: ($(window).width() - $(".modal-box").outerWidth()) / 2
+              });
+        });
+         
+        $(window).resize();
+     
+    });
+        
+        
+    
+        //-->
+    </script>
+    
+    
+    </head>
+       
+    <!--<body class="international-homepage" onLoad="student(); document.getElementById('user').focus();">-->
+    <body class="international-homepage">
+       
+    <div class="lv_window" style="display: none; top: 314px; left: 486px;">
+      <div class="lv_skin"><div class="lv_shadow">
+      <canvas height="1000" width="1000"></canvas></div>
+      <div class="lv_bubble" data-lv-fx-placement="0">
+      <canvas height="1000" width="1000"></canvas></div>
+      <div class="lv_side_buttons_underneath" style="display: none;">
+      <div class="lv_side lv_side_left" style="display: none;">
+      <div class="lv_side_button lv_side_button_previous"></div></div>
+      <div class="lv_side lv_side_right" style="display: none;">
+      <div class="lv_side_button lv_side_button_next"></div></div></div>
+      <div class="lv_spinner_wrapper" style="display: none;"></div></div>
+      <div class="lv_content"></div>
+      <div class="lv_title_caption" style="display: none;">
+      <div class="lv_title_caption_slide">
+      <div class="lv_title"></div>
+      <div class="lv_caption"></div></div></div>
+      <div class="lv_inner_previous_next_overlays">
+      <div class="lv_button lv_button_inner_previous_overlay"></div>
+      <div class="lv_button lv_button_inner_next_overlay" style="display: none;"></div></div>
+      <div class="lv_button_top_close close_lightview" style="display: none;"></div>
+      <div class="lv_controls_relative" style="display: none;">
+      <div class="lv_slider">
+      <div class="lv_slider_icon lv_slider_previous">
+      <div class="lv_icon"></div></div>
+      <div class="lv_slider_numbers">
+      <div class="lv_slider_slide"></div></div>
+      <div class="lv_slider_icon lv_slider_next">
+      <div class="lv_icon"></div></div><div class="lv_slider_icon lv_slider_slideshow">
+      <div class="lv_icon lv_slider_next"></div></div></div></div></div>
+      <div class="lv_overlay" style="display: none; background-color: rgb(0, 0, 0);"></div>
+        <div id="fb-root" class=" fb_reset">
+        <div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div>
+        <div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div>
+        
+        <!--
+        <iframe name="fb_xdm_frame_http" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_http" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="./VCC Library and Learning Centre - Vancouver Community College - Library and Learning Centre_files/P5DLcu0KGJB.html" style="border: none;"></iframe>
+        <iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="./VCC Library and Learning Centre - Vancouver Community College - Library and Learning Centre_files/P5DLcu0KGJB(1).html" style="border: none;"></iframe>
+        -->
+        
+        </div>
+        </div>
+        </div>
+        
+        <!--
+        <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script> -->
+       
+       
+    <div class="blueDark background-wrap">
+          <!--** Desktop header **-->
+          <div class="container header hidden-phone hidden-tablet visible-desktop">
+            <header role="banner">
+              <div id="skiptocontent"><a href="http://library.vcc.ca/#maincontent">skip to main content</a></div>
+              <!--** Start top row logo and meta-nav desktop**-->
+              <div class="row ">
+                <!-- navigation object : Library get Logo and Heading Text -->            <!--** Logo desktop **-->
+                <div class="logo span7"><!---change from span6 to "span7" for 50yearslogo----->
+                  <section class="clearfix">
+                    <a class="pull-left" href="http://www.vcc.ca/" title="VCC Homepage"><img src="/public/logo.png" alt="Vancouver Community College Logo"><!---width="124" height="105"----></a>
+                    <a href="http://library.vcc.ca/" title="VCC Library Homepage">
+                    <!--<h1 class="header-site-title pull-left">VCC Library Off-Campus Access</h1>-->
+                    <h1 class="header-site-title">Library Off-Campus Access</h1>
+                    </a>
+                    
+                  </section>
+                </div>
+                <!--** end Logo desktop **-->
+       
+       
+                <!-- navigation object : Library get Meta Navigation -->            <!--** metanav **-->            
+                <div class="meta-nav pull-right text-right hidden-phone visible-desktop">
+                  <nav class="quick-links dropdown" role="navigation">
+                    <ul class="grayDark unstyled">
+                      <li class="green sprite" id="myVCC-link"><a href="https://my.vcc.ca/" target="_blank">myVCC</a></li>
+                      <li class="cyan switch-site-link" id="main-site-link"><a href="http://encore.vcc.ca/iii/encore//Sdologin?lang=eng">My Library Account</a></li>
+                      <li id="meta-fb-link"><a href="https://www.facebook.com/vcclib" class="sprite sprite-facebook-white" target="_blank">&nbsp;</a></li>
+                      <li><a href="https://twitter.com/VCCLib" class="sprite sprite-twitter-white" target="_blank">&nbsp;</a></li>
+                      <li><a href="http://www.youtube.com/user/vcclibrary" class="sprite sprite-youtube-white" target="_blank">&nbsp;</a></li>
+                      <li><a href="http://www.questionpoint.org/crs/servlet/org.oclc.home.TFSRedirect?virtcategory=12382" class="sprite sprite-chat-white-small" target="_blank">&nbsp;</a></li><!--- TODO change icon for AskAway --->
+                    </ul>
+                  </nav>
+                </div>
+                <!--** End metanav **-->
+              </div>
+              <!--** End top row logo and meta-nav desktop **-->
+              <!--** Start main nav and site search desktop **-->
+              <div class="row no-margin hidden-phone hidden-tablet visible-desktop">
+                <!--** Wrap for sticky nav **-->
+                <div class="sticky-wrap clearfix">
+                  <!-- navigation object : Lib get Google Search Code -->              <!--** Site search **-->
+                  <div class="site-search span3 hidden-phone visible-desktop">
+                    <!-- google custom search  -->
+                    <form id="cse-search-box" action="http://library.vcc.ca/search-results/" class="right">
+                        <label for="q" class="hidden">Search Query</label>
+                        <input type="hidden" name="cx" value="015402484436537740015:igkj-nompfg">
+                        <input type="hidden" name="cof" value="FORID:9">
+                        <input type="hidden" name="ie" value="UTF-8">
+                        <input type="text" id="q" name="q" value="" placeholder="Search Library site"> 
+                        <button type="submit" name="sa" value="search" id="searchsubmit" class="green"></button>
+                        
+                    </form>
+                    <!-- End of google custom search -->
+                  </div>
+                  <!--** End site search **-->
+                  <!-- navigation object : Lib get Desktop Main Navigation -->              <!--** Primary nav **-->
+                  <nav id="primary-nav" class="span9 hidden-phone hidden-tablet visible-desktop" role="navigation">
+                       <ul class="unstyled">
+                            <li class="first"><a href="http://library.vcc.ca/research/" id="research-link" class="mega-menu-link">Research</a></li>
+                            <li><a href="http://library.vcc.ca/using-the-library/" id="using-the-library-link" class="mega-menu-link">Using the Library</a></li>
+                            <li><a href="http://library.vcc.ca/contact-us/" id="ask-us-link" class="mega-menu-link">Contact Us</a></li>
+                            <li><a href="http://library.vcc.ca/about-us/" id="about-us-link" class="mega-menu-link">About Us</a></li>
+                            <li><a href="http://library.vcc.ca/learningcentre/" id="learning-centre-link">Learning Centre</a></li>
+                            <!--- lc navigation http://library.vcc.ca/learningcentre/ --->
+                       </ul>
+                  </nav>
+                  <!--** End primary nav **-->
+                </div>
+                <!--** End sticky-wrap **-->
+              </div>
+              <!--** End main nav and site search **-->
+            </header>
+          </div>
+          <!--** Desktop header **-->
+          <!--** Mobile header **-->
+          <div class="container hidden-desktop visible-phone visible-tablet mobile-header">
+            <!--** Start mobile logo and navigation **-->
+            <div class="row">
+              <!--** Mobile logo and header text *-->
+              <!-- navigation object : Lib get Mobile Logo and Heading Text -->          <div class="logo-mobile"><a href="http://library.vcc.ca/"><img src="./public/logo.png" alt="logo"><!---width="76" height="64"----></a></div>
+              <h1 class="header-site-title pull-left">Off-Campus Access</h1>
+              <!-- navigation object : Get mobile nav buttons -->          <!--** Nav buttons *-->
+              <div class="mobile-nav-buttons relative">
+                <div class="button-wrap">
+                  <div class="btn blueDarkButton" id="search"><a href="http://library.vcc.ca/" title="Site search"></a></div>
+                  <div class="black-line"></div>
+                </div>
+                <div class="button-wrap">
+                  <div class="btn blueDarkButton" id="my-VCC-login"><a href="http://library.vcc.ca/" title="myVCC login"></a></div>
+                  <div class="black-line"></div>
+                </div>
+                <div class="button-wrap">
+                  <div class="btn blueDarkButton" id="site-nav"><a href="http://library.vcc.ca/" title="main site navigation"></a></div>
+                  <div class="black-line"></div>
+                </div>
+              </div>
+              <!--** End Nav buttons *-->
+              <!--** End mobile logo and header text *-->
+            </div>
+            <!--** End mobile logo and navigation buttons **-->
+          </div>
+          <!--** End Mobile Header container **-->
+       
+          <!-- Mobile navigaiton dropdowns container **-->
+          <div class="container hidden-desktop visible-phone visible-tablet mobile-header relative blueDark" id="mobile-menus-wrap">
+            <!--** Mobile site search **-->
+            <div class="row mobile-menu" id="mob-site-search">
+              <!-- navigation object : Lib get Google Search code (mobile) -->
+       
+                    <!-- google custom search  -->
+                    <form id="cse-search-box" action="http://library.vcc.ca/search-results/" class="right">
+                      <div class="row">
+                        <label for="q" class="hidden">Search Query</label>
+                        <input type="hidden" name="cx" value="015402484436537740015:igkj-nompfg">
+                        <input type="hidden" name="cof" value="FORID:9">
+                        <input type="hidden" name="ie" value="UTF-8">
+                        <input type="text" id="q" name="q" value="" placeholder="Search Library site"> 
+                        <button type="submit" name="sa" value="search" id="searchsubmit" class="green"></button>
+                      </div>  
+                    </form>
+            </div>
+            <!--** End mobile site search **-->
+            <!--** myVCC Menu dropdown row **-->
+            <div class="row mobile-menu " id="my-VCC-login-menu"> 
+              <!-- navigation object : Lib get Mobile myVCC menu (mobile) --><ul>
+    <li><a href="https://my.vcc.ca/">myVCC Login</a></li>
+    <li><a href="http://encore.vcc.ca/iii/encore//Sdologin?lang=eng">My Library Account</a></li>
+    <li><a href="https://www.facebook.com/vcclib">Facebook</a></li>
+    <li><a href="https://twitter.com/VCCLib">Twitter</a></li>
+    <li><a href="http://www.youtube.com/user/vcclibrary">YouTube</a></li>
+    <li><a href="http://www.questionpoint.org/crs/servlet/org.oclc.home.TFSRedirect?virtcategory=12382">Chat Help</a></li>
+    <li><a title="Home%20%BB%20Vancouver%20Community%20College%20%BB%20VCC%20Library%20and%20Learning%20Centre%20%BB%20Contact%20Us%20%BB%20Phone%20/%20Email%20/%20Key%20Contacts" href="http://library.vcc.ca/contact-us/phone--email--key-contacts/">Contact Us</a></li>
+    </ul>
+            </div>
+            <!--** End myVCC Menu dropdown **-->
+            <!--** Main site mobile navigation dropdown row **--> 
+            <div class="row mobile-menu" id="site-nav-menu">
+              <!-- navigation object : Intnl: Mobile main nav --><ul><li><a href="http://library.vcc.ca/research/">Research</a><span class="more-less"></span>
+    <ul class="multilevel-linkul-0">
+    <li><a href="http://library.vcc.ca/research/books-dvds-and-more/">Books, DVDs and More</a></li>
+    <li><a href="http://library.vcc.ca/research/articles/">Articles</a></li>
+    <li><a href="http://library.vcc.ca/research/journals/">Journals</a></li>
+    <li><a href="http://libguides.vcc.ca/index.php">Subject and Course Guides</a></li>
+    <li><a href="http://library.vcc.ca/research/course-reserves/">Course Reserves</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/">How to do Research</a><span class="more-less"></span>
+    <ul class="multilevel-linkul-1">
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/welcome/">Welcome</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/library-services/">Library Services</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/select-a-topic/">Select a Topic</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/selecting-resources/">Selecting Resources</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/choosing-keywords/">Choosing Keywords</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/online-search-tips/">Online Search Tips</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/library-catalogue/">Library Catalogue</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/finding-articles/">Finding Articles</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/finding-quality-websites/">Finding Quality Websites</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/evaluating-websites/">Evaluating Websites</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/citing-sources/">Citing Sources</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/library-account-and-myvcc/">Library Account and myVCC</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/how-to-evaluate-sources/">How to Evaluate Sources</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/scholarly-vs-popular-journals/">Scholarly vs. Popular Journals</a></li>
+    <li><a href="http://library.vcc.ca/research/how-to-do-research/primary-vs-secondary-sources/">Primary vs. Secondary Sources</a></li>
+    <li><a href="http://llct4.vcc.ca/help/ResearchChallenge/ResearchChallenge.html?sm=wbQHgVWcC1dZAZ5zrZgs5g_3d_3d">Research Challenge</a></li>
+       
+    </ul>
+    </li>
+    <li><a href="http://library.vcc.ca/research/apa-mla-harvard-vancouver-asa/">APA, MLA, Harvard, Vancouver, ASA</a></li>
+    <li><a href="http://libguides.vcc.ca/plagiarism" target="_blank">Plagiarism</a></li>
+    <li><a href="http://libguides.vcc.ca/copyright">Copyright and Fair Dealing</a></li>
+    <li><a href="http://library.vcc.ca/research/other-libraries/">Other Libraries</a></li>
+       
+    </ul>
+    </li><li><a href="http://library.vcc.ca/using-the-library/">Using the Library</a><span class="more-less"></span>
+    <ul class="multilevel-linkul-0">
+    <li><a href="http://library.vcc.ca/using-the-library/library-card-my-library-account-and-myvcc/">Library Card, My Library Account and MyVCC</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/vcc-email/">VCC Email</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/bookings/">Bookings</a><span class="more-less"></span>
+    <ul class="multilevel-linkul-1">
+    <li><a href="http://library.vcc.ca/using-the-library/bookings/booking-library-tour--research-class/">Booking Library Tour / Research Class</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/bookings/booking-av-equipment/">Booking A/V Equipment</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/bookings/booking-videos-for-classroom-use/">Booking Videos for Classroom Use</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/bookings/booking-an-appointment-with-a-librarian/">Booking an Appointment with a Librarian</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/bookings/booking-a-group-study-room/">Booking a Group Study Room</a></li>
+       
+    </ul>
+    </li>
+    <li><a href="http://library.vcc.ca/using-the-library/borrow-renew-request/">Borrow, Renew, Request</a><span class="more-less"></span>
+    <ul class="multilevel-linkul-1">
+    <li><a href="http://library.vcc.ca/using-the-library/borrow-renew-request/loan-periods-limits-and-fines/">Loan Periods, Limits and Fines</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/borrow-renew-request/renewals-and-requests/">Renewals and Requests</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/borrow-renew-request/interlibrary-loan/">Interlibrary Loan</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/borrow-renew-request/reciprocal-borrowing/">Reciprocal Borrowing</a></li>
+       
+    </ul>
+    </li>
+    <li><a href="http://library.vcc.ca/using-the-library/computers-equipment-and-wireless/">Computers, Equipment and Wireless</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/connect-from-home/">Connect from Home</a></li>
+    <li><a href="https://www.youtube.com/user/vcclibrary/" target="_blank">How to... (video tutorials)</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/students-with-disabilities/">Students with Disabilities</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/distance-learners/">Distance Learners</a></li>
+    <li><a href="http://library.vcc.ca/using-the-library/workshops/">Workshops</a></li>
+       
+    </ul>
+    </li><li><a href="http://library.vcc.ca/contact-us/">Contact Us</a><span class="more-less"></span>
+    <ul class="multilevel-linkul-0">
+    <li><a href="http://library.vcc.ca/contact-us/phone--email--key-contacts/">Phone / Email / Key Contacts</a></li>
+    <li><a href="http://www.questionpoint.org/crs/servlet/org.oclc.home.TFSRedirect?virtcategory=12382" target="_blank">Chat</a></li>
+    <li><a href="http://libguides.vcc.ca/index.php">Programs by Librarians</a></li>
+    <li><a href="http://library.vcc.ca/contact-us/give-us-feedback/">Give Us Feedback</a></li>
+       
+    </ul>
+    </li><li><a href="http://library.vcc.ca/about-us/">About Us</a><span class="more-less"></span>
+    <ul class="multilevel-linkul-0">
+    <li><a href="http://library.vcc.ca/about-us/annual-reports-and-leadership-alerts/">Annual Reports and Leadership Alerts</a></li>
+    <li><a href="http://library.vcc.ca/about-us/hours-and-locations/">Hours and Locations</a></li>
+    <li><a href="http://library.vcc.ca/about-us/policies/">Policies</a><span class="more-less"></span>
+    <ul class="multilevel-linkul-1">
+    <li><a href="http://library.vcc.ca/about-us/policies/children-in-the-library/">Children in the Library</a></li>
+    <li><a href="http://library.vcc.ca/about-us/policies/communication-with-our-borrowers/">Communication with Our Borrowers</a></li>
+    <li><a href="http://library.vcc.ca/about-us/policies/requests--intercampus-loans/">Requests &amp; Intercampus Loans</a></li>
+    <li><a href="http://library.vcc.ca/about-us/policies/food-and-noise/">Food and Noise</a></li>
+    <li><a href="http://library.vcc.ca/about-us/policies/group-study-rooms/">Group Study Rooms</a></li>
+    <li><a href="http://library.vcc.ca/about-us/policies/library-services-standards/">Library Services Standards</a></li>
+    <li><a href="http://library.vcc.ca/about-us/policies/loan-periods-fines--lost-materials/">Loan Periods, Fines &amp; Lost Materials</a></li>
+    <li><a href="http://library.vcc.ca/about-us/policies/renewals--reserve-materials/">Renewals &amp; Reserve Materials</a></li>
+    <li><a href="http://library.vcc.ca/about-us/policies/use-of-computers-and-guidelines-for-guest-computer-access/">Use of Computers and Guidelines for Guest Computer Access</a></li>
+       
+    </ul>
+    </li>
+       
+    </ul>
+    </li><li><a href="http://library.vcc.ca/learningcentre/">Learning Centre</a></li></ul>
+            </div>
+            <!--** End Main site mobile navigation dropdown **-->
+          </div>
+          <!--** End mobile navigaiton dropdowns row **-->
+        </div><!-- .blueDark -->
+        <!--** End header wrap ** --> 
+        
+       
+        <!--** Mega subnavs **-->
+        <!--** Start Research subnav **-->
+        <div class="subnav  grayDark" id="research-subnav" data-open-trigger="research-link" style="display: none;">
+          <div class="container">
+            <!-- navigation object : Get Lib subnav Research -->        <!--** Research headings **-->
+    <!--
+            <div class="row">
+              <div class="span3">
+                <p class="faux-heading">Research</p>
+              </div>
+            </div>
+    -->
+            <!--** End Research headings **-->        <!--** Research links **-->
+            <div class="row">
+              <div class="span6">
+                   <ul class="unstyled">
+                      <!-- navigation object : Library Research subnav links --><li><a href="http://library.vcc.ca/research/books-dvds-and-more/">Books, DVDs and More</a></li><li><a href="http://library.vcc.ca/research/articles/">Articles</a></li><li><a href="http://library.vcc.ca/research/journals/">Journals</a></li><li><a href="http://libguides.vcc.ca/index.php">Subject and Course Guides</a></li><li><a href="http://library.vcc.ca/research/course-reserves/">Course Reserves</a></li><li><a href="http://library.vcc.ca/research/how-to-do-research/">How to do Research</a></li><li><a href="http://library.vcc.ca/research/apa-mla-harvard-vancouver-asa/">APA, MLA, Harvard, Vancouver, ASA</a></li><li><a href="http://libguides.vcc.ca/plagiarism" target="_blank">Plagiarism</a></li><li><a href="http://libguides.vcc.ca/copyright">Copyright and Fair Dealing</a></li><li><a href="http://library.vcc.ca/research/other-libraries/">Other Libraries</a></li>
+                   </ul>
+              </div>     
+            </div>
+            <!--** End Research links **--> 
+          </div>
+        </div>
+        <!--** End Research subnav **-->
+        
+        <!--** Using The Libary subnav **-->
+        <div class="subnav grayDark" id="usingthelibrary-subnav" data-open-trigger="using-the-library-link" style="display: none;">
+          <div class="container">
+            <!-- navigation object : Get Lib subnav Using the Library -->        <!--** Using the Library headings **-->
+    <!--
+            <div class="row">
+               <div class="span3">
+                <p class="faux-heading">Using the Library</p>
+              </div>
+            </div>
+    -->
+            <!--** End Programs headings **-->        <!--** Using the Library links **-->
+            <div class="row">
+              <div class="span6">
+                <ul class="unstyled">
+                  <!-- navigation object : Library Using the Library subnav links --><li><a href="http://library.vcc.ca/using-the-library/library-card-my-library-account-and-myvcc/">Library Card, My Library Account and MyVCC</a></li><li><a href="http://library.vcc.ca/using-the-library/vcc-email/">VCC Email</a></li><li><a href="http://library.vcc.ca/using-the-library/bookings/">Bookings</a></li><li><a href="http://library.vcc.ca/using-the-library/borrow-renew-request/">Borrow, Renew, Request</a></li><li><a href="http://library.vcc.ca/using-the-library/computers-equipment-and-wireless/">Computers, Equipment and Wireless</a></li><li><a href="http://library.vcc.ca/using-the-library/connect-from-home/">Connect from Home</a></li><li><a href="https://www.youtube.com/user/vcclibrary/" target="_blank">How to... (video tutorials)</a></li><li><a href="http://library.vcc.ca/using-the-library/students-with-disabilities/">Students with Disabilities</a></li><li><a href="http://library.vcc.ca/using-the-library/distance-learners/">Distance Learners</a></li><li><a href="http://library.vcc.ca/using-the-library/workshops/">Workshops</a></li>
+                </ul>
+              </div>
+            </div>
+            <!--** End Using the Library links **-->         
+          </div>
+        </div>
+        <!--** End Using The Library subnav **-->
+        
+        <!--** Start Contact Us subnav **-->
+        <div class="subnav  grayDark" id="ask-us-subnav" data-open-trigger="ask-us-link" style="display: none;">
+          <div class="container">
+            <!-- navigation object : Get Lib subnav Ask Us -->        <!--** Ask Us headings **-->
+    <!--
+            <div class="row">
+               <div class="span3">
+                <p class="faux-heading">Ask Us</p>
+              </div>
+            </div>
+    -->
+            <!--** Ask Us headings **-->        <!--** Ask Us links **-->
+            <div class="row">
+              <div class="span6">
+                <ul class="unstyled">
+                  <!-- navigation object : Library Ask Us subnav links --><li><a href="http://library.vcc.ca/contact-us/phone--email--key-contacts/">Phone / Email / Key Contacts</a></li><li><a href="http://www.questionpoint.org/crs/servlet/org.oclc.home.TFSRedirect?virtcategory=12382" target="_blank">Chat</a></li><li><a href="http://libguides.vcc.ca/index.php">Programs by Librarians</a></li><li><a href="http://library.vcc.ca/contact-us/give-us-feedback/">Give Us Feedback</a></li>
+                </ul>
+              </div>   
+            </div>
+            <!--** End Ask Us subnav links **-->
+          </div>
+        </div>
+        <!--** End Contact Us subnav **-->
+       
+        <!--** Start About Us subnav **-->
+        <div class="subnav  grayDark" id="about-us-subnav" data-open-trigger="about-us-link" style="display: none;">
+          <div class="container">
+              <!-- navigation object : Get Lib subnavs About Us -->          <!--** About Us headings **-->
+    <!--
+              <div class="row">
+               <div class="span3">
+                <p class="faux-heading">About Us</p>
+              </div>
+              </div>
+    -->
+              <!--** End About Us headings **-->          <!--** About Us links **-->
+              <div class="row">          
+                <div class="span6">
+                  <ul class="split-list unstyled">
+                    <!-- navigation object : Library About Us subnav links --><li><a href="http://library.vcc.ca/about-us/annual-reports-and-leadership-alerts/">Annual Reports and Leadership Alerts</a></li><li><a href="http://library.vcc.ca/about-us/hours-and-locations/">Hours and Locations</a></li><li><a href="http://library.vcc.ca/about-us/policies/">Policies</a></li>
+                  </ul>
+                </div>
+              </div>
+              <!--** End About Us links **-->
+          </div>
+        </div>
+        <!--** End About Us subnav **--> 
+       
+       
+       
+    <!-- VCC Version --->
+    
+    <!--
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>             
+            <td valign="top" width="50%" style="padding-left:20px;"><a href="http://library.vcc.ca" title="VCC Library"><img src="/public/vccLibLogo.gif" alt="VCC Library"border="0"></a>
+            </td>
+            <td  valign="top" style="vertical-align:middle; text-align:right; padding-right:20px;" width="50%">
+             <a href="https://my.vcc.ca" title="myVCC login" style="color:#FFF; font-size:14; font-weight:bold;">myVCC login a</a>
+            </td>
+          </tr>
+        </table>
+    -->
+    
+        <div align="center">
+        <br /><br />
+        
+       <link href='http://fonts.googleapis.com/css?family=Titillium+Web:100,80,160' rel='stylesheet' type='text/css'>
+       <link rel="stylesheet" href="/public/normalize.css">
+       <link rel="stylesheet" href="/public/style.css">
+    
+       <form name="IDPLogin" enctype="application/x-www-form-urlencoded" method="POST" action="/login" onSubmit="makeItSo();">
+       <input type="hidden" name="url" value="^U" />
+       <input type="hidden" name="typeLogin" value="employee">
+        <div class="form">
+          
+          <ul class="tab-group">
+            <li class="tab active"><a href="#student" onclick="javacrript:student()">Student</a></li>
+            <li class="tab"><a href="#employee" onclick="javascript:employee();">Employee</a></li>
+          </ul>
+          
+          <p id="description"> ›› Enter your VCC Student ID Number (NUMERIC ONLY - No "S")</p>
+          
+          <input type="text" name="user" id="user" required autocomplete="off" placeholder="Student ID Number"/>
+          <input type="password" name="pass" id="pass" required autocomplete="off" placeholder="Password"/>
+          
+          <div class="tab-content">
+            <div id="student">   
+              <!--<p>›› Enter your VCC Student ID Number (NUMERIC ONLY - No "S")</p>-->
+              
+              <!--<div class="field-wrap">
+                <label>
+                  Student ID Number<span class="req">*</span>
+                </label>
+                <input type="text" name="user" required autocomplete="off" placeholder="Student ID Number"/>
+              </div>-->
+              
+              <!--<div class="field-wrap">
+                <label>
+                  Password<span class="req">*</span>
+                </label>
+                <input type="password" name="pass" required autocomplete="off" placeholder="Password"/>
+              </div>-->
+              
+              </br>
+              </br>
+              </br>
+              </br>
+              </br>
+              <p class="forgot">
+        <!--	  <a href="javascript:pwdhelp();" title="Password help">Password Help</a> | <a href="javascript:openWindow('https://secure.vcc.ca/accessVCC/FPASSWORD.HTM', 'vccpwdhelp', 800,600,1);" title="Forgot/Reset Password Help">Forgot Password?</a> -->
+              <a class="js-open-modal" href="#" data-modal-id="LoginHelp"> Login Help </a> | <a class="js-open-modal" href="#" data-modal-id="PasswordHelp"> Password Help </a>
+              </p>
+              
+              <button type="submit" class="button button-block"/>Log In as Student</button>
+              
+            </div>
+            
+            <div id="employee">   
+              <!--<p class="tab-title">›› Enter your VCC network login Username</p>-->
+                        
+               <!--<div class="field-wrap">
+                <label>
+                  Network Username<span class="req">*</span>
+                </label>
+                <input type="text" name="user"  autocomplete="off" placeholder="Network Username"/>
+              </div>-->
+              
+              <!--<div class="field-wrap">
+                <label>
+                  Password<span class="req">*</span>
+                </label>
+                <input type="password" name="pass" required autocomplete="off" placeholder="Password"/>
+              </div>-->
+    
+              </br>
+              </br>
+              </br>
+              </br>
+              </br>
+              <p class="forgot">
+        <!--	  <a href="javascript:pwdhelp();" title="Password help">Password Help</a> | <a href="javascript:openWindow('https://secure.vcc.ca/accessVCC/FPASSWORD.HTM', 'vccpwdhelp', 800,600,1);" title="Forgot/Reset Password Help">Forgot Password?</a> -->
+              <a class="js-open-modal" href="#" data-modal-id="LoginHelp"> Login Help </a> | <a class="js-open-modal" href="#" data-modal-id="PasswordHelp"> Password Help </a>
+              </p>
+    
+    
+              <button type="submit" class="button button-block"/>Log In as Employee</button>
+              
+            </div>
+            
+          </div><!-- tab-content -->
+          
+                <p>By logging in, you agree to be bound by<br/> 
+                <a href="javascript:window.open('http://www.vcc.ca/about/governance--policies/policies/', 'VCC Policies', 'width=800,height=600');" title="By logging in, you agree to be bound by VCC Policies, Terms of Use, and Code of Ethics.">VCC Policies</a>, 
+                <a href="javascript:window.open('http://www.vcc.ca/about/governance--policies/policies/', 'Terms of Use', 'width=800,height=600');" title="By logging in, you agree to be bound by VCC Policies, Terms of Use, and Code of Ethics.">Terms of Use</a>, and 
+                <a href="javascript:window.open('http://www.vcc.ca/about/governance--policies/policies/', 'Code of Ethics', 'width=800,height=600');" title="By logging in, you agree to be bound by VCC Policies, Terms of Use, and Code of Ethics.">Code of Ethics</a>.
+              </p>
+        </div> <!-- /form -->
+        
+       <script src="/public/jquery.min.js"></script> 
+       <script src="/public/index.js"></script>
+    </form>
+        
+    <!--
+        <form name="IDPLogin" enctype="application/x-www-form-urlencoded" method="POST" action="/login" onSubmit="makeItSo();">
+        <input type="hidden" name="url" value="^U" />
+          <table align="center" border=0 cellpadding="3" cellspacing="6" width="60%">
+             <tr>
+               <td align="left" nowrap="nowrap" width="25%">
+               <label style="font-family: verdana, arial, heveltica; font-weight:bold; font-size:12px;">Login As:</label>
+               </td>
+               <td align=left nowrap="nowrap" style="font-family: verdana, arial, heveltica; font-size: 12px; font-weight:normal; vertical-align:middle;">
+               <input name="type" type="radio" value="student"  id = "one" onClick = "show('div_one'); hide('div_two'); show('div_onehelp'); hide('div_twohelp'); student();" checked onKeyPress="return handleKeystroke(event);"/> Student &nbsp; &nbsp;
+               <input name="type" type="radio" value="employee" id = "two" onClick = "show('div_two'); hide('div_one'); show('div_twohelp'); hide('div_onehelp'); staff();" onKeyPress="return handleKeystroke(event);"/> Employee
+               </td>
+             </tr>
+             <tr>
+               <td align=left nowrap="nowrap">
+               <label id = "div_one"><span style="font-family: verdana, arial, heveltica; font-weight:bold; font-size:12px;">Student ID Number:</span></label>
+               <label id = "div_two" style = "display:none"><span style="font-family: verdana, arial, heveltica; font-weight:bold; font-size:12px;">Network Username:</span></label>
+               </td>
+               <td align=left nowrap="nowrap">
+               <input type="text" name="user" size="30" style="border: 1px solid #686868; font-size:12px; font-family:Verdana, Arial, Helvetica, sans-serif; margin: 0px;
+      padding: 10px;" onKeyPress="return handleKeystroke(event);">
+                </td>
+             </tr>
+             <tr>
+                <td align=left nowrap="nowrap">
+                <label style="font-family: verdana, arial, heveltica; font-weight:bold; font-size:12px">Password</label>						
+                </td>							
+                <td align=left nowrap="nowrap">
+                <input type="password" name="pass" size="30"  style="border: 1px solid #686868; font-size:12px; font-family:Verdana, Arial, Helvetica, sans-serif; margin: 0px;
+      padding: 10px;" onKeyPress="return handleKeystroke(event);">
+                </td>							
+             </tr>
+             <tr>
+                <td  align="center"  nowrap="nowrap">&nbsp;</td>							
+                <td align="left">
+                <br />
+                <label id = "div_onehelp" style = "display:none; font-size:14px;">
+                <strong>&rsaquo;&rsaquo;</strong> Enter your VCC Student ID Number (NUMERIC ONLY - No "S")<br/><br/>
+                &nbsp; &nbsp; <a href="javascript:pwdhelp();" title="Password help">password help</a> | <a href="javascript:openWindow('https://secure.vcc.ca/accessVCC/FPASSWORD.HTM', 'vccpwdhelp', 800,600,1);" title="Forgot/Reset Password Help">forgot password?</a><br/>
+                </label>
+                <label id = "div_twohelp" style = "display:none; font-size:14px;">
+                <strong>&rsaquo;&rsaquo;</strong> Enter your VCC network login Username<br/>
+                </label> 
+                </td>							
+             </tr>
+             <tr>
+                <td align="right" nowrap="nowrap">
+                <br/>
+                <input type="radio" name="IAgree" value="1" checked="checked" readonly="readonly">						
+                </td>							
+                <td align=left nowrap="nowrap">
+                <br/>
+                <label style="font-family:verdana, arial, heveltica; font-size:11px;">By logging in, you agree to be bound by<br/> <a href="javascript:openWindow('http://www.vcc.ca/about-vcc/policies', 'vccIAgree', 800,600,1);" title="By logging in, you agree to be bound by VCC Policies, Terms of Use, and Code of Ethics.">VCC Policies</a>, <a href="javascript:openWindow('http://www.vcc.ca/about-vcc/policies', 'vccIAgree2', 800,600,1);" title="By logging in, you agree to be bound by VCC Policies, Terms of Use, and Code of Ethics.">Terms of Use</a>, and <a href="javascript:openWindow('http://www.vcc.ca/about-vcc/policies', 'vccIAgree3', 800,600,1);" title="By logging in, you agree to be bound by VCC Policies, Terms of Use, and Code of Ethics.">Code of Ethics</a>.</label>
+                </td>							
+             </tr>
+             <tr>
+                <td align="right" colspan="2">
+                <br /><br />
+                <input style="border: 3x double #999; border-left-color: #ccc; border-top-color: #ccc; color: #000000; 
+                padding: 0.25em; width:100px; font-size:14px; font-family: verdana, arial, heveltica; font-weight: bold;" type="submit" value="Login">
+                </td>							
+              </tr>
+          </table>       
+        </form>
+    -->	
+        
+        
+        <br /><br />
+    
+    <!--                  
+        <span style="font-family:verdana, arial; font-size: 11px; color:000000;text-decoration:none;">&copy; <a  href="http://www.vcc.ca">Vancouver Community College</a>
+        </span></div>
+       -->
+                    
+    <!-- end of VCC version -->
+    
+        <!--** End Mosaic container **-->
+         <!-- navigation object : Lib get Footer -->    <!--** Start footer **-->
+        <footer class="green clearfix">
+            <div class="container">
+              <div class="footer-meta">
+                <!-- navigation object : Footer - get footer meta content -->
+                <ul class="inline-list">       
+                  <li><a href="http://www.vcc.ca/about/college-information/privacy-policy/">Privacy Policy</a></li>
+                  <li><a href="http://www.vcc.ca/about/college-information/disclaimer/">Disclaimer</a></li>
+                  <li><a href="http://www.vcc.ca/about/college-information/copyright/">Copyright</a></li>
+                  <li class="last-child"><a href="http://library.vcc.ca/for-library-staff/">For Library Staff</a></li>
+                </ul>
+              <span id="footer-feedback" class="right bg_black"><a href="http://library.vcc.ca/contact-us/give-us-feedback/">Feedback</a></span>
+              </div>
+    
+            </div>
+        </footer>
+        <!--** End footer **-->
+    
+        <!--** VCCLIB GA code **-->
+    <!--- Track outbound links, downloads and mailto ---
+    <script type="text/javascript">
+    if (typeof jQuery != 'undefined') {
+      jQuery(document).ready(function($) {
+        var filetypes = /\.(pdf|doc.*|xls.*|ppt.*|txt|mp3|wma|mov|avi|wmv|flv|wav)$/i;
+        var baseHref = '';
+        if (jQuery('base').attr('href') != undefined) baseHref = jQuery('base').attr('href');
+    
+        jQuery('a').on('click', function(event) {
+          var el = jQuery(this);
+          var track = true;
+          var href = (typeof(el.attr('href')) != 'undefined' ) ? el.attr('href') :"";
+          var isThisDomain = href.match(document.domain.split('.').reverse()[1] + '.' + document.domain.split('.').reverse()[0]);
+          if (!href.match(/^javascript:/i)) {
+            var elEv = []; elEv.value=0, elEv.non_i=false;
+            if (href.match(/^mailto\:/i)) {
+              elEv.category = "email";
+              elEv.action = "click";
+              elEv.label = href.replace(/^mailto\:/i, '');
+              elEv.loc = href;
+            }
+            else if (href.match(filetypes)) {
+              var extension = (/[.]/.exec(href)) ? /[^.]+$/.exec(href) : undefined;
+              elEv.category = "download";
+              elEv.action = "click-" + extension[0];
+              elEv.label = href.replace(/ /g,"-");
+              elEv.loc = baseHref + href;
+            }
+            else if (href.match(/^https?\:/i) && !isThisDomain) {
+              elEv.category = "outbound";
+              elEv.action = "click";
+              elEv.label = href.replace(/^https?\:\/\//i, '');
+              elEv.non_i = true;
+              elEv.loc = href;
+            }
+            else if (href.match(/el\:/i)) {
+              elEv.category = "telephone";
+              elEv.action = "click";
+              elEv.label = href.replace(/el\:/i, '');
+              elEv.loc = href;
+            }
+            else track = false;
+    
+               if (track) {
+              _gaq.push(['_trackEvent', elEv.category.toLowerCase(), elEv.action.toLowerCase(), elEv.label.toLowerCase(), elEv.value, elEv.non_i]);
+              if ( el.attr('target') == undefined || el.attr('target').toLowerCase() != '_blank') {
+                setTimeout(function() { location.href = elEv.loc; }, 400);
+                return false;
+          }
+        }
+          }
+        });
+      });
+    }
+    </script>
+    
+        <!--- https://github.com/googleanalytics/autotrack --->
+        <script>
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            ga('create', 'UA-822672-1', 'auto');
+            ga('require', 'autotrack');
+            ga('send', 'pageview');
+        </script>
+        <script async="" src="/public/analytics.js"></script>
+        <script async="" src="/public/autotrack.js"></script><!--autotrack.js-->
+        <!--** end of VCCLIB GA code **-->
+    
+    
+    <!---
+        <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+        try {
+        var pageTracker = _gat._getTracker("UA-310039-1");
+        pageTracker._trackPageview();
+        } catch(err) {}</script>
+        <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+        try {
+        var pageTracker = _gat._getTracker("UA-8608009-2");
+        pageTracker._trackPageview();
+        } catch(err) {}</script> 
+    --->
+    <!-- CRAZY EGG-->
+    <!---
+    <script type="text/javascript">
+    setTimeout(function(){var a=document.createElement("script");
+    var b=document.getElementsByTagName("script")[0];
+    a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0013/4746.js?"+Math.floor(new Date().getTime()/3600000);
+    a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+    </script>
+    --->
+    
+    
+    
+    <div id="LoginHelp" class="modal-box">  
+      <header>
+        <a href="#" class="js-modal-close close">×</a>
+        <div style="background-color:#FFF;">
+            <img src="/public/logo.png"  alt="Library Off-Campus Access - loging help" />
+            <h3>Login Help</h3>
+        </div>
+      </header>
+      <div class="modal-body">
+        <div style="padding:0 30px;">
+            <h4 style="padding-left:30px; font-family:Roboto">
+                <span class="glyphicon glyphicon-chevron-right" style="color:#6e9e00;"></span> Students/ Alumni:
+            </h4>
+            <h3 style="padding-left:50px;padding-bottom:25px; font-family:Roboto; font-size:10pt;">
+            Please enter your VCC Student ID Number. If this is the first time you login, your password is set initially to your birthdate in the format of 
+            <span style="color:red;">MMDDYY</span>.<br/><br/>Example: January 18, 1975. Your Password is: 011875.
+            </h3>
+            <h4 style="padding-left:30px; font-family:Roboto;">
+                <span class="glyphicon glyphicon-chevron-right" style="color:#6e9e00;"></span> Employees:
+                </h4>
+            <h3 style="padding-left:50px;padding-bottom:25px; font-family:Roboto; font-size:10pt;">Please use your network username and password.</h3>
+            <h4 style="padding-left:30px; font-family:Roboto;">
+                <span class="glyphicon glyphicon-chevron-right" style="color:#6e9e00;"></span> Help Desk Telephone:
+            </h4>
+            <h3 style="padding-left:50px;padding-bottom:25px; font-family:Roboto; font-size:10pt;">604.443.8700</h3>
+        </div>
+      </div> 
+      <footer>
+        <a href="#" class="js-modal-close">Close Button</a>
+      </footer>
+    </div>
+    
+    <div id="PasswordHelp" class="modal-box">  
+      <header>
+        <a href="#" class="js-modal-close close">×</a>
+        <div style="background-color:#FFF;">
+            <img src="/public/logo.png"  alt="Library Off-Campus Access - loging help" />
+            <h3>Password Help</h3>
+        </div>
+      </header>
+      <div class="modal-body">
+            <div style="padding:0 30px;">
+                <!--<h3 style="text-transform:uppercase; padding-bottom:30px;font-family:Roboto;">Forgot Password</h3>-->
+                <h4 style="padding-left:30px; font-family:Roboto;">
+                    <span class="glyphicon glyphicon-chevron-right" style="color:#6e9e00;"></span> Students/ Alumni: 
+                    <a href="https://pinreset.vcc.ca/" target="_blank0" style="font-size:18px;color:#0000ff;" title="Students/Alumni reset password">reset now</a>
+                 </h4>
+                 <h3 style="padding-left:50px;padding-bottom:25px; font-family:Roboto; font-size:10pt;">Note: Once validated, please wait 
+                    <span style="color:red;">15 minutes</span> for the student password reset to take effect.
+                 </h3>
+                 <h4 style="padding-left:30px;padding-bottom:25px; font-family:Roboto;">
+                    <span class="glyphicon glyphicon-chevron-right" style="color:#6e9e00;"></span> Employees:  
+                    <a href="https://passwordreset.vcc.ca/qpmuser" target="_blank0" style="font-family:Roboto;font-size:18px;color:#0000ff;" title="VCC Employees reset password">reset now</a>
+                 </h4>
+                 <h4 style="padding-left:30px; font-family:Roboto;">
+                    <span class="glyphicon glyphicon-chevron-right" style="color:#6e9e00;"></span> Help Desk Telephone:
+                 </h4>
+                 <h3 style="padding-left:50px;padding-bottom:25px; font-family:Roboto; font-size:10pt;">604.443.8700</h3>
+            </div>           
+        
+      </div>
+      <footer>
+        <a href="#" class="js-modal-close">Close Button</a>
+      </footer>
+    </div>
+    
+    
+    
+    
+      
+    <div class="lv_controls_top" style="display: none;">
+    <div class="lv_top_middle" style="display: none;">
+    <div class="lv_top_button lv_top_previous">
+    <div class="lv_icon">
+    <span style="display: block;">Prev</span></div></div>
+    <div class="lv_top_button lv_top_slideshow">
+    <div class="lv_icon"></div></div>
+    <div class="lv_top_button lv_top_next">
+    <div class="lv_icon">
+    <span style="display: block;">Next</span></div></div></div></div>
+    <div class="lv_controls_top_close" style="display: none;">
+    <div class="lv_controls_top_close_button"></div></div>
+    <div class="lv_thumbnails" style="display: none;">
+    <div class="lv_thumbnails_slider">
+    <div class="lv_thumbnails_slide"></div></div></div>
+    <div class="lv_controls_top_close" style="display: none;">
+    <div class="lv_controls_top_close_button"></div></div>
+    
+    <!--<script aria-hidden="true" type="application/x-lastpass" id="hiddenlpsubmitdiv" style="display: none;"></script>-->
+    
+      
+    </body>
+       
+    </html>
+       
